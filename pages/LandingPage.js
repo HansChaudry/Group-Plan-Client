@@ -88,9 +88,7 @@ export default function LandingPage() {
 
           <TouchableOpacity
             style={LandingPageStyles.LandingPageBtn}
-            onPress={() => {
-              navigation.navigate("LoginPage");
-            }}
+            onPress={() => {}}
           >
             <Text
               style={{
@@ -104,9 +102,7 @@ export default function LandingPage() {
             style={{
               ...LandingPageStyles.LandingPageBtn,
             }}
-            onPress={() => {
-              navigation.navigate("SignUpPage");
-            }}
+            onPress={() => {}}
           >
             <Text
               style={{

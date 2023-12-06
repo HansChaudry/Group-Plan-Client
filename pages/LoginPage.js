@@ -143,6 +143,7 @@ export default function LoginScreen() {
             // Handle login logic here with username and password
             // console.log("Login pressed with:", { username, password });
             // handleLogInPress();
+            navigation.navigate("AppTabs");
           }}
         >
           <Text

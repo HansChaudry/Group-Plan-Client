@@ -24,7 +24,7 @@ const AppTabs = ({ navigator }) => {
     >
       <Tab.Screen
         name="GroupsPage"
-        component={GroupsPage}
+        component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={TabBarStyles.tabBarOptionContainer}>
@@ -46,7 +46,7 @@ const AppTabs = ({ navigator }) => {
       />
       <Tab.Screen
         name="RecipesPage"
-        component={RecipesPage}
+        component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={TabBarStyles.tabBarOptionContainer}>
@@ -90,7 +90,7 @@ const AppTabs = ({ navigator }) => {
       />
       <Tab.Screen
         name="CartPage"
-        component={CartPage}
+        component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={TabBarStyles.tabBarOptionContainer}>
@@ -112,7 +112,7 @@ const AppTabs = ({ navigator }) => {
       />
       <Tab.Screen
         name="AccountSettingsPage"
-        component={AccountSettingsPage}
+        component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={TabBarStyles.tabBarOptionContainer}>

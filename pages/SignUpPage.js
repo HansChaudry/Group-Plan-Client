@@ -209,7 +209,7 @@ export default function SignUpPage() {
           }}
           disabled={btnColor ? true : false}
           onPress={() => {
-            handleSignUpPress();
+            // handleSignUpPress();
           }}
         >
           <Text style={SignUpPageStyles.SignUpPageBtnText}>Sign Up</Text>

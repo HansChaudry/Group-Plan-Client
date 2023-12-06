@@ -24,10 +24,8 @@ const OnBoard = () => {
     const user = await AsyncStorage.getItem("sessionId");
     if (user) {
       setAuthorized(user);
-      console.log(user);
       return true;
     }
-    console.log(user);
     setAuthorized(null);
     return false;
   };

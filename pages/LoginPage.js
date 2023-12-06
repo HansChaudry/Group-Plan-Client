@@ -142,7 +142,7 @@ export default function LoginScreen() {
           onPress={() => {
             // Handle login logic here with username and password
             // console.log("Login pressed with:", { username, password });
-            handleLogInPress();
+            // handleLogInPress();
           }}
         >
           <Text

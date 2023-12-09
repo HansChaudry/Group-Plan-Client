@@ -15,11 +15,9 @@ export default function UserGroupCard(props) {
       }}
     >
       <View style={GroupCardStyles.UserGroupNameContainer}>
-        <Text style={GroupCardStyles.UserGroupName}>
-          {props.group.name}
-        </Text>
+        <Text style={GroupCardStyles.UserGroupName}>{props.group.name}</Text>
         <Text style={GroupCardStyles.UserGroupCurrentMeal}>
-          Current Recipe: {props.group.current_recipe_name}
+          Current Meal: {props.group.current_recipe_name}
         </Text>
       </View>
       <View>

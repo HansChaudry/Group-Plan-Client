@@ -53,13 +53,18 @@ export default function GroupPage() {
   };
 
   //------------------FOR DISPLAYING PUBLIC/PRIVATE GROUPS -------------------------------------------------------------------------
-  const getGroups = () => {
+  const getGroups = async () => {
+    const info = await AsyncStorage.getItem("sessionId");
     if (searchText === "") {
       return;
     }
     axios
       .get(
-        `https://groupplan.azurewebsites.net/recipes/searchGroups/${searchText}`
+        `https://groupplan.azurewebsites.net/recipes/searchGroups/${searchText}`,
+        {
+          withCredentials: true,
+          headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
+        }
       )
       .then((response) => {
         setSearchedGroups(response.data);
@@ -70,13 +75,10 @@ export default function GroupPage() {
   const getUserGroups = async () => {
     const info = await AsyncStorage.getItem("sessionId");
     axios
-      .get(
-        `https://groupplan.azurewebsites.net/recipes/getUserGroups/`,
-        {
-          withCredentials: true,
-          headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
-        }
-      )
+      .get(`https://groupplan.azurewebsites.net/recipes/getUserGroups/`, {
+        withCredentials: true,
+        headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
+      })
       .then((response) => {
         setUserGroups(response.data);
       })
@@ -192,6 +194,7 @@ export default function GroupPage() {
             //add switch for user groups and recommened groups
           )}
         </View>
+
         <CreateGroupModal
           modalVisible={modalVisible}
           close={setModalVisible}

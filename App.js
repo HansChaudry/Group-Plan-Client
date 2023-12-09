@@ -9,6 +9,8 @@ import DetailedGroupPage from "./pages/DetailedGroupPage";
 import PollPage from "./pages/PollPage";
 import AppTabs from "./AppTabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { Platform } from "react-native";
 
 const Stack = createStackNavigator();
 import {
@@ -17,15 +19,21 @@ import {
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
 
-const OnBoard = () => {
+const OnBoard = (props) => {
   const [authorized, setAuthorized] = useState(null);
 
   const isAuthorized = async () => {
     const user = await AsyncStorage.getItem("sessionId");
     if (user) {
-      setAuthorized(user);
+      axios
+        .get(`https://groupplan.azurewebsites.net/users/user/authorized`)
+        .then((response) => {
+          setAuthorized(user);
+        })
+        .catch((error) => console.log(error));
       return true;
     }
+
     setAuthorized(null);
     return false;
   };

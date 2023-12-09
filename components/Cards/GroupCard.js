@@ -10,13 +10,11 @@ export default function GroupCard(props) {
   // NAVIGATION
   const handleJoin = async (x) => {
     const groupId = await x._dispatchInstances.memoizedProps.testID;
-    const userId = await AsyncStorage.getItem("userId");
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .post(
         `https://groupplan.azurewebsites.net/recipes/group/add`,
         {
-          user_id: userId,
           group_id: groupId,
         },
         {

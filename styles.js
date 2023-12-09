@@ -226,7 +226,7 @@ export const CreateRecipesStyles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: "#88B361",
+    borderColor: "#FFBA00",
     borderWidth: 1,
     borderRadius: 10,
     width: "88%",
@@ -252,22 +252,26 @@ export const CreateRecipesStyles = StyleSheet.create({
     borderBottomRightRadius: 0,
   },
   imageUpload: {
-    width: 300,
+    width: "100%",
     height: 150,
-    backgroundColor: "lightgray",
+    borderWidth: 1,
     marginBottom: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   imagePreview: {
-    width: 200,
-    height: 100,
-    marginBottom: 20,
+    width: "100%",
+    height: 200,
+    marginBottom: 0,
+    resizeMode: "cover",
   },
   addMoreButton: {
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "#FFBA00",
+    borderColor: "#88B361",
     borderRadius: 10,
-    backgroundColor: "#FFBA00",
+    backgroundColor: "#88B361",
     height: 50,
     justifyContent: "center",
     paddingHorizontal: 32,
@@ -276,7 +280,7 @@ export const CreateRecipesStyles = StyleSheet.create({
     borderWidth: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#88B361",
+    backgroundColor: "#FFBA00",
     flex: 1,
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
@@ -748,7 +752,6 @@ export const PollPageStyles = StyleSheet.create({
     fontFamily: fonts.bold,
   },
   recipesContainer: {
-    height: 100,
     paddingHorizontal: "10%",
   },
   listItemContainer: {
@@ -948,7 +951,6 @@ export const AddPollRecipeModalStyles = StyleSheet.create({
   },
   listItemContainer: {
     flexDirection: "row",
-
     marginVertical: 15,
   },
   addButtonContainer: {

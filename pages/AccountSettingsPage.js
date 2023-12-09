@@ -17,26 +17,32 @@ import axios from "axios";
 export default function AccountSettingsPage() {
   const navigation = useNavigation();
 
-  const removeUserData = async (value, key) => {
+  const removeUserData = async () => {
     await AsyncStorage.removeItem("sessionId");
     await AsyncStorage.removeItem("userId");
   };
 
   const handleLogout = async () => {
-    const info = await AsyncStorage.getItem("sessionId");
-    axios
-      .post(
+    try {
+      const info = await AsyncStorage.getItem("sessionId");
+
+      const response = await axios.post(
         `https://groupplan.azurewebsites.net/users/logout/`,
+        {},
         {
           withCredentials: true,
-          headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
+          headers: { Cookie: info.split(";")[0].replace(/"/g, "") },
         }
-      )
-      .then((response) => {
-        removeUserData();
+      );
+
+      removeUserData();
+
+      if (response.data) {
         navigation.navigate("LoginPage");
-      })
-      .catch((error) => console.log(error));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

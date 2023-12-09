@@ -1,27 +1,35 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  useWindowDimensions,
+} from "react-native";
 
 import GroupCard from "./Cards/GroupCard";
 import UserGroupCard from "./Cards/UserGroupCard";
 
 export default function GroupsCollection(props) {
+  const height = useWindowDimensions().height - 400;
   return (
-    <ScrollView style={styles.topContainer}>
-      {props.groups.map((group) => {
-        if (props.showbtn) {
-          return (
-            <GroupCard
-              key={group.pk}
-              group={group}
-              updateUserGroups={props.updateUserGroups}
-            />
-          );
-        } else {
-          return <UserGroupCard group={group} key={group.pk} />;
-        }
-      })}
-    </ScrollView>
+    <View style={{ height: height }}>
+      <ScrollView style={styles.topContainer}>
+        {props.groups.map((group) => {
+          if (props.showbtn) {
+            return (
+              <GroupCard
+                key={group.id}
+                group={group}
+                updateUserGroups={props.updateUserGroups}
+              />
+            );
+          } else {
+            return <UserGroupCard group={group} key={group.id} />;
+          }
+        })}
+      </ScrollView>
+    </View>
   );
 }
 

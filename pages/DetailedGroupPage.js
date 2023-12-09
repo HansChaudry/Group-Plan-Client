@@ -18,6 +18,7 @@ import RecipeDetailsModal from "../components/Modals/RecipeDetailsModal";
 import { DetailedGroupPageStyles, RecipeCardStyles } from "../styles";
 import { Bar } from "react-native-progress";
 import MuiCIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import CountdownTimer from "../components/CountDownTimer";
 
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 
@@ -114,7 +115,7 @@ export default function DetailedGroupPage({ route }) {
       .get(
         `http://${
           Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/getPoll/summary/${route.params.group.pk}`,
+        }:8000/recipes/getPoll/summary/${route.params.group.id}`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
@@ -166,7 +167,7 @@ export default function DetailedGroupPage({ route }) {
               backgroundColor: "red",
             }}
             onPress={() => {
-              handleLeaveGroup(route.params.group.pk);
+              handleLeaveGroup(route.params.group.id);
             }}
           >
             <Text style={DetailedGroupPageStyles.buttonText}>Leave Group</Text>
@@ -190,7 +191,9 @@ export default function DetailedGroupPage({ route }) {
             >
               <Image
                 source={{
-                  uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png",
+                  uri: currentRecipe.recipe_image
+                    ? currentRecipe.recipe_image
+                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png",
                 }}
                 style={{
                   height: 175,
@@ -199,7 +202,7 @@ export default function DetailedGroupPage({ route }) {
               />
               <View style={RecipeCardStyles.recipeBottomBox}></View>
               <Text style={RecipeCardStyles.recipeName}>
-                {currentRecipe?.name}
+                {currentRecipe.name ? currentRecipe.name : "N/A"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -223,7 +226,8 @@ export default function DetailedGroupPage({ route }) {
                 }}
               >
                 <Text style={DetailedGroupPageStyles.sectionTitle}>
-                  Current Poll
+                  Current Poll{": "}
+                  <CountdownTimer pollDateTime={group.current_poll_time} />
                 </Text>
                 <Text
                   style={{
@@ -274,7 +278,7 @@ export default function DetailedGroupPage({ route }) {
           show={memberModalsVisible}
           close={setMemberModalsVisible}
           owner={group.owner}
-          groupID={route.params.group.pk}
+          groupID={route.params.group.id}
         />
       </View>
     </SafeAreaView>

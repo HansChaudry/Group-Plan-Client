@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useRef } from "react";
 import {
   ScrollView,
@@ -6,8 +7,8 @@ import {
   TouchableOpacity,
   View,
   Alert,
-  ImagePicker,
   Platform,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native";
@@ -15,6 +16,7 @@ import { StatusBar } from "react-native";
 import MuiCIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
 import { CreateRecipesStyles } from "../styles";
 
 export default function CreateRecipePage() {
@@ -33,20 +35,30 @@ export default function CreateRecipePage() {
       const info = await AsyncStorage.getItem("sessionId");
       const mealIngredients = "[" + ingredients.toString() + "]";
       const mealInstructions = "[" + steps.toString() + "]";
+      const data = new FormData();
+      data.append("recipe_name", mealName);
+      data.append("recipe_ingredients", mealIngredients);
+      data.append("recipe_instructions", mealInstructions);
+      if (mealImage) {
+        data.append("imageFile", {
+          uri: mealImage,
+          type: "image/jpg",
+          name: "recipeImg",
+        });
+      }
 
       axios
         .post(
           `http://${
             Platform.OS === "ios" ? "localhost" : "10.0.2.2"
           }:8000/recipes/createRecipe/`,
-          {
-            recipe_name: mealName,
-            recipe_ingredients: mealIngredients,
-            recipe_instructions: mealInstructions,
-          },
+          data,
           {
             withCredentials: true,
-            headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
+            headers: {
+              Coookie: info.split(";")[0].replace(/"/g, ""),
+              "Content-Type": "multipart/form-data",
+            },
           } // Assuming you want to send the 'group' data in the request
         )
         .then((response) => {
@@ -73,20 +85,15 @@ export default function CreateRecipePage() {
   };
 
   const uploadImage = async () => {
-    let permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [310, 175],
+      quality: 1,
     });
 
-    if (!pickerResult.cancelled) {
-      setMealImage(pickerResult.uri);
+    if (!pickerResult.canceled) {
+      setMealImage(pickerResult.assets[0].uri);
     }
   };
 
@@ -128,30 +135,89 @@ export default function CreateRecipePage() {
             scrollViewRef.current.scrollToEnd({ animated: true })
           }
         >
-          <View style={CreateRecipesStyles.section}>
+          <View style={{ ...CreateRecipesStyles.section, marginBottom: 5 }}>
             <Text style={CreateRecipesStyles.sectionLabel}>Name</Text>
             <TextInput
               style={{
                 ...CreateRecipesStyles.input,
                 width: "100%",
-                borderTopColor: "#000",
-                borderLeftColor: "#000",
-                borderBottomColor: "#000",
-                borderRightColor: "#000",
+                borderColor: "black",
               }}
               placeholder="Title of meal"
               value={mealName}
               onChangeText={(text) => setMealName(text)}
             />
           </View>
+          <View style={CreateRecipesStyles.section}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={CreateRecipesStyles.sectionLabel}>Image</Text>
+              {mealImage ? (
+                <TouchableOpacity onPress={uploadImage}>
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_400Regular",
+                      color: "blue",
+                      textDecorationLine: "underline",
+                    }}
+                  >
+                    Change Image
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <></>
+              )}
+            </View>
 
-          {/* <TouchableOpacity onPress={uploadImage}>
-            {mealImage ? (
-              <Image source={{ uri: mealImage }} style={CreateRecipesStyles.imagePreview} />
-            ) : (
-              <View style={CreateRecipesStyles.imageUpload} />
-            )}
-          </TouchableOpacity> */}
+            <TouchableOpacity onPress={uploadImage}>
+              {mealImage ? (
+                <View>
+                  <Image
+                    source={{ uri: mealImage }}
+                    style={CreateRecipesStyles.imagePreview}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 2,
+                      },
+                      shadowOpacity: 1,
+                      shadowRadius: 4,
+                      elevation: 5,
+                    }}
+                    onPress={() => setMealImage(null)}
+                  >
+                    <MuiCIcon name="trash-can-outline" size={35} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={CreateRecipesStyles.imageUpload}>
+                  <Image
+                    source={require("../assets/icons/upload.png")}
+                    style={{ width: 30, height: 30, tintColor: "#FFBA00" }}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_600SemiBold",
+                      color: "#FFBA00",
+                    }}
+                  >
+                    Upload Image
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
 
           <View style={CreateRecipesStyles.section}>
             <Text style={CreateRecipesStyles.sectionTitle}>Ingredients</Text>
@@ -173,7 +239,7 @@ export default function CreateRecipePage() {
                     removeIngredient(index);
                   }}
                 >
-                  <MuiCIcon name="trash-can-outline" size={30} color="#fff" />
+                  <MuiCIcon name="trash-can-outline" size={35} color="#fff" />
                 </TouchableOpacity>
               </View>
             ))}
@@ -181,7 +247,7 @@ export default function CreateRecipePage() {
               onPress={addIngredient}
               style={CreateRecipesStyles.addMoreButton}
             >
-              <MuiCIcon name="plus" size={30} color="#fff" />
+              <MuiCIcon name="plus" size={35} color="#fff" />
             </TouchableOpacity>
           </View>
 
@@ -222,7 +288,7 @@ export default function CreateRecipePage() {
             style={{
               borderWidth: 0,
 
-              backgroundColor: "#88B361",
+              backgroundColor: "#FFBA00",
               width: "90%",
               padding: 15,
               marginBottom: 10,
@@ -235,7 +301,7 @@ export default function CreateRecipePage() {
               style={{
                 color: "white",
                 fontSize: 18,
-                fontFamily: "Poppins_400Regular",
+                fontFamily: "Poppins_600SemiBold",
               }}
             >
               Save

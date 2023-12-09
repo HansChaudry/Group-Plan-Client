@@ -48,9 +48,7 @@ export default function DetailedGroupPage({ route }) {
     }
     axios
       .get(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/getRecipe/${group.current_recipe}`
+        `https://groupplan.azurewebsites.net/recipes/getRecipe/${group.current_recipe}`
       )
       .then((response) => {
         setCurrentRecipe(response.data[0].fields);
@@ -62,9 +60,7 @@ export default function DetailedGroupPage({ route }) {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .put(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/startPoll/${route.params.group.pk}/`,
+        `https://groupplan.azurewebsites.net/recipes/startPoll/${route.params.group.pk}/`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },

@@ -21,9 +21,7 @@ export default function CreateGroupModal(props) {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .post(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/group/`,
+        `https://groupplan.azurewebsites.net/recipes/group/`,
         { name: groupName, privacy: groupType },
         {
           withCredentials: true,

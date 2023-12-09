@@ -35,9 +35,7 @@ export default function AddPollRecipeModal(props) {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .put(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/addRecipe/${props.groupID}`,
+        `https://groupplan.azurewebsites.net/recipes/addRecipe/${props.groupID}`,
         // eslint-disable-next-line no-undef
         (data = {
           recipe_id: userRecipes[selected].id,

@@ -42,9 +42,7 @@ export default function SignUpPage() {
     setBtnColor(true);
     axios
       .post(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/users/register/`,
+        `https://groupplan.azurewebsites.net/users/register/`,
         // eslint-disable-next-line no-undef
         (data = {
           email: email,

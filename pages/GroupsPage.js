@@ -5,7 +5,6 @@ import {
   StatusBar,
   Text,
   TextInput,
-  Platform,
   Pressable,
   TouchableOpacity,
   Keyboard,
@@ -60,9 +59,7 @@ export default function GroupPage() {
     }
     axios
       .get(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/searchGroups/${searchText}`
+        `https://groupplan.azurewebsites.net/recipes/searchGroups/${searchText}`
       )
       .then((response) => {
         setSearchedGroups(response.data);
@@ -74,9 +71,7 @@ export default function GroupPage() {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .get(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/getUserGroups/`,
+        `https://groupplan.azurewebsites.net/recipes/getUserGroups/`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },

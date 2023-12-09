@@ -26,9 +26,7 @@ export default function AccountSettingsPage() {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .post(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/users/logout/`,
+        `https://groupplan.azurewebsites.net/users/logout/`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },

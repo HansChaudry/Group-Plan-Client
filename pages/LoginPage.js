@@ -38,9 +38,7 @@ export default function LoginScreen() {
     }
     axios
       .post(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/users/login/`,
+        `https://groupplan.azurewebsites.net/users/login/`,
         // eslint-disable-next-line no-undef
         (data = { username: username, password: password })
       )
@@ -142,8 +140,8 @@ export default function LoginScreen() {
           onPress={() => {
             // Handle login logic here with username and password
             // console.log("Login pressed with:", { username, password });
-            // handleLogInPress();
-            navigation.navigate("AppTabs");
+            handleLogInPress();
+
           }}
         >
           <Text

@@ -18,9 +18,7 @@ export default function GroupMembersModal(props) {
   const getMembers = () => {
     axios
       .get(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/group/members/${props.groupID}`
+        `https://groupplan.azurewebsites.net/recipes/group/members/${props.groupID}`
       )
       .then((response) => {
         setMembers(response.data.filter((member) => member.pk != props.owner));

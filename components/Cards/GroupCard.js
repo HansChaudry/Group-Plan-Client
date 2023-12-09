@@ -14,9 +14,7 @@ export default function GroupCard(props) {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .post(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/group/add`,
+        `https://groupplan.azurewebsites.net/recipes/group/add`,
         {
           user_id: userId,
           group_id: groupId,

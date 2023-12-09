@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Text,
-  Platform,
   Image,
   useWindowDimensions,
 } from "react-native";
@@ -16,7 +15,6 @@ import axios from "axios";
 import { RecipesPageStyles, RecipeCardStyles } from "../styles";
 import TopNav from "../components/TopNav";
 import RecipeDetailsModal from "../components/Modals/RecipeDetailsModal";
-import CreateRecipePage from "./CreateRecipePage";
 
 export default function RecipesPage(props) {
   const { width } = useWindowDimensions();
@@ -30,9 +28,7 @@ export default function RecipesPage(props) {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .get(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/getUserRecipes/`,
+        `https://groupplan.azurewebsites.net/recipes/getUserRecipes/`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },

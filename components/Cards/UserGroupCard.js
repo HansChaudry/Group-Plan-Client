@@ -16,16 +16,16 @@ export default function UserGroupCard(props) {
     >
       <View style={GroupCardStyles.UserGroupNameContainer}>
         <Text style={GroupCardStyles.UserGroupName}>
-          {props.group.fields.name}
+          {props.group.name}
         </Text>
         <Text style={GroupCardStyles.UserGroupCurrentMeal}>
-          Current Meal: None
+          Current Recipe: {props.group.current_recipe_name}
         </Text>
       </View>
       <View>
         <Image
           source={
-            props.group.fields.current_poll
+            props.group.current_poll
               ? require("../../assets/icons/poll.png")
               : null
           }

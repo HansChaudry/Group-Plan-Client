@@ -86,7 +86,7 @@ const OnBoard = () => {
           name="Detailed Group Page"
           component={DetailedGroupPage}
           options={({ route }) => ({
-            headerTitle: route.params.group.fields.name,
+            headerTitle: route.params.group.name,
             headerStyle: {
               backgroundColor: "#FFBA00",
             },

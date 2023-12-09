@@ -25,7 +25,7 @@ export default function DetailedGroupPage({ route }) {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const { width } = useWindowDimensions();
-  const [group, setGroup] = useState(route.params.group.fields);
+  const [group, setGroup] = useState(route.params.group);
   const [currentRecipe, setCurrentRecipe] = useState({});
   const [mealModalVisible, setMealModalVisible] = useState(false);
   const [memberModalsVisible, setMemberModalsVisible] = useState(false);
@@ -210,7 +210,7 @@ export default function DetailedGroupPage({ route }) {
               onPress={() => {
                 navigation.navigate("Poll Page", {
                   pollSummary: pollSummary?.summary,
-                  groupID: route.params.group.pk,
+                  groupID: route.params.group.id,
                 });
               }}
             >

@@ -61,7 +61,7 @@ export default function DetailedGroupPage({ route }) {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .put(
-        `https://groupplan.azurewebsites.net/recipes/startPoll/${route.params.group.pk}/`,
+        `https://groupplan.azurewebsites.net/recipes/startPoll/${route.params.group.id}/`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
@@ -113,9 +113,7 @@ export default function DetailedGroupPage({ route }) {
 
     axios
       .get(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/getPoll/summary/${route.params.group.id}`,
+        `https://groupplan.azurewebsites.net/recipes/getPoll/summary/${route.params.group.id}`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },

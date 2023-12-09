@@ -49,9 +49,7 @@ export default function CreateRecipePage() {
 
       axios
         .post(
-          `http://${
-            Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-          }:8000/recipes/createRecipe/`,
+          `https://groupplan.azurewebsites.net/recipes/createRecipe/`,
           data,
           {
             withCredentials: true,

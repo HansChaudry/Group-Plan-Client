@@ -39,9 +39,7 @@ export default function PollPage({ route }) {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .get(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/getPoll/recipes/${route.params.groupID}`,
+        `https://groupplan.azurewebsites.net/recipes/getPoll/recipes/${route.params.groupID}`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },

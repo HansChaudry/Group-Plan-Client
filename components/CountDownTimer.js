@@ -12,7 +12,6 @@ const CountdownTimer = (props) => {
 
     interval = setInterval(() => {
       const now = moment();
-      // console.log(now.toString());
       const targetDate = moment(props.pollDateTime);
       const duration = moment.duration(targetDate.diff(now));
 
@@ -20,7 +19,6 @@ const CountdownTimer = (props) => {
       if (duration.asSeconds() <= 0) {
         clearInterval(interval);
         setDone(true);
-        console.log("Done!");
       } else {
         // Format the duration as hours:minutes:seconds
         setDone(false);

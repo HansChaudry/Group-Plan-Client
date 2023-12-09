@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/icons/Onboarding.png",
-      "resizeMode": "center",
+      "resizeMode": "contain",
       "backgroundColor": "#FFBA00"
     },
     "assetBundlePatterns": [

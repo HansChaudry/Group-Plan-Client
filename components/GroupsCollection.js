@@ -19,7 +19,7 @@ export default function GroupsCollection(props) {
           if (props.showbtn) {
             return (
               <GroupCard
-                key={group.id}
+                key={group.pk}
                 group={group}
                 updateUserGroups={props.updateUserGroups}
               />

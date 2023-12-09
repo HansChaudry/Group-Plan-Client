@@ -56,9 +56,7 @@ export default function PollPage({ route }) {
 
     axios
       .put(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/addVote/${route.params.groupID}/`,
+        `https://groupplan.azurewebsites.net/recipes/addVote/${route.params.groupID}/`,
         {
           recipe_id: recipes[selected].recipe,
         },

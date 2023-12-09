@@ -130,9 +130,7 @@ export default function DetailedGroupPage({ route }) {
     const info = await AsyncStorage.getItem("sessionId");
     axios
       .put(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/group/removeUser`,
+        `https://groupplan.azurewebsites.net/recipes/group/removeUser`,
         {
           group_id: groupId,
         },

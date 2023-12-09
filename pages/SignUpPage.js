@@ -44,14 +44,14 @@ export default function SignUpPage() {
       .post(
         `https://groupplan.azurewebsites.net/users/register/`,
         // eslint-disable-next-line no-undef
-        (data = {
+        {
           email: email,
           first_name: firstName,
           last_name: lastName,
           username: username,
           password1: password,
           password2: confirmPassword,
-        })
+        }
       )
       .then((response) => {
         if (response.data[0] === undefined) {
@@ -205,9 +205,9 @@ export default function SignUpPage() {
             ...SignUpPageStyles.SignUpPageBtn,
             backgroundColor: btnColor ? "#88B361" : "#FFBA00",
           }}
-          disabled={btnColor ? true : false}
+          disabled={btnColor}
           onPress={() => {
-            // handleSignUpPress();
+            handleSignUpPress();
           }}
         >
           <Text style={SignUpPageStyles.SignUpPageBtnText}>Sign Up</Text>

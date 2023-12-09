@@ -30,6 +30,7 @@ export default function DetailedGroupPage({ route }) {
   const [currentRecipe, setCurrentRecipe] = useState({});
   const [mealModalVisible, setMealModalVisible] = useState(false);
   const [memberModalsVisible, setMemberModalsVisible] = useState(false);
+  const [enablePollPage, setEnablePollPage] = useState(false);
   const [pollSummary, setPollSummary] = useState({
     user_count: 0,
     summary: {},
@@ -41,7 +42,7 @@ export default function DetailedGroupPage({ route }) {
       getcurrentRecipe();
       _pollPreview();
     }
-  }, [group, isFocused]);
+  }, [isFocused]);
 
   const getcurrentRecipe = () => {
     if (!group.current_recipe) {
@@ -71,6 +72,8 @@ export default function DetailedGroupPage({ route }) {
         setGroup((prev) => {
           return { ...prev, current_poll: true };
         });
+        _pollPreview();
+        setEnablePollPage(true);
       })
       .catch((error) => console.log(error));
   };
@@ -110,18 +113,44 @@ export default function DetailedGroupPage({ route }) {
   };
   const _pollPreview = async () => {
     const info = await AsyncStorage.getItem("sessionId");
+    setEnablePollPage(false);
 
     axios
       .get(
-        `https://groupplan.azurewebsites.net/recipes/getPoll/summary/${route.params.group.id}`,
+        `https://groupplan.azurewebsites.net/recipes/getPoll/status/${route.params.group.id}`,
         {
           withCredentials: true,
           headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
         }
       )
       .then((response) => {
-        setPollSummary(response.data);
-        setPollPreview(generatePollPreview(response.data));
+        if (response.data.message) {
+          setEnablePollPage(false);
+        } else {
+          if (response.data.recipe_image) {
+            setEnablePollPage(false);
+            setCurrentRecipe(response.data);
+            setGroup((prev) => {
+              return { ...prev, current_poll_time: "", current_poll: false };
+            });
+          } else {
+            setEnablePollPage(true);
+            setPollSummary(response.data);
+            setPollPreview(
+              generatePollPreview({
+                summary: response.data.summary,
+                user_count: response.data.user_count,
+              })
+            );
+            setGroup((prev) => {
+              return {
+                ...prev,
+                current_poll_time: response.data.poll_time,
+                current_poll: true,
+              };
+            });
+          }
+        }
       })
       .catch((error) => console.log(error));
   };
@@ -207,10 +236,12 @@ export default function DetailedGroupPage({ route }) {
             <TouchableOpacity
               style={DetailedGroupPageStyles.currentPoll}
               onPress={() => {
-                navigation.navigate("Poll Page", {
-                  pollSummary: pollSummary?.summary,
-                  groupID: route.params.group.id,
-                });
+                if (enablePollPage) {
+                  navigation.navigate("Poll Page", {
+                    pollSummary: pollSummary?.summary,
+                    groupID: route.params.group.id,
+                  });
+                }
               }}
             >
               <View
@@ -223,7 +254,10 @@ export default function DetailedGroupPage({ route }) {
               >
                 <Text style={DetailedGroupPageStyles.sectionTitle}>
                   Current Poll{": "}
-                  <CountdownTimer pollDateTime={group.current_poll_time} />
+                  <CountdownTimer
+                    pollDateTime={group.current_poll_time}
+                    updatePoll={_pollPreview}
+                  />
                 </Text>
                 <Text
                   style={{

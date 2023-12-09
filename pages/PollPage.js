@@ -8,7 +8,6 @@ import {
   StatusBar,
   Text,
   ScrollView,
-  Platform,
   Alert,
 } from "react-native";
 import { PollPageStyles } from "../styles";

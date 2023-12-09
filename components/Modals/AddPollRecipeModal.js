@@ -53,15 +53,10 @@ export default function AddPollRecipeModal(props) {
   const getRecipes = async () => {
     const info = await AsyncStorage.getItem("sessionId");
     axios
-      .get(
-        `http://${
-          Platform.OS === "ios" ? "localhost" : "10.0.2.2"
-        }:8000/recipes/getUserRecipes/`,
-        {
-          withCredentials: true,
-          headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
-        }
-      )
+      .get(`https://groupplan.azurewebsites.net/recipes/getUserRecipes/`, {
+        withCredentials: true,
+        headers: { Coookie: info.split(";")[0].replace(/"/g, "") },
+      })
       .then((response) => {
         const formatedRecipes = [];
         response.data.map((recipe) => {

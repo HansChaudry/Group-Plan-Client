@@ -5,7 +5,6 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  Platform,
   Dimensions,
   useWindowDimensions,
   Image,

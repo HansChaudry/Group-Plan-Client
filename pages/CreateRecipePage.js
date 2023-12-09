@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
   Alert,
-  Platform,
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";

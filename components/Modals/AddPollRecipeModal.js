@@ -1,14 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import {
-  Modal,
-  View,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-  Platform,
-  Image,
-} from "react-native";
+import { Modal, View, TouchableOpacity, Text, ScrollView } from "react-native";
 import { AddPollRecipeModalStyles } from "../../styles";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";

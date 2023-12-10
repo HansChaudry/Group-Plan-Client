@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { View, Text, TouchableOpacity, Platform } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
 import { GroupCardStyles } from "../../styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";

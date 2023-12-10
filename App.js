@@ -10,7 +10,6 @@ import PollPage from "./pages/PollPage";
 import AppTabs from "./AppTabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { Platform } from "react-native";
 
 const Stack = createStackNavigator();
 import {
@@ -20,27 +19,36 @@ import {
 } from "@expo-google-fonts/poppins";
 
 const OnBoard = (props) => {
-  const [authorized, setAuthorized] = useState(null);
+  const [authorized, setAuthorized] = useState(false);
 
   const isAuthorized = async () => {
-    const user = await AsyncStorage.getItem("sessionId");
-    if (user) {
-      axios
-        .get(`https://groupplan.azurewebsites.net/users/user/authorized`)
-        .then((response) => {
-          setAuthorized(user);
-        })
-        .catch((error) => console.log(error));
-      return true;
-    }
+    try {
+      const user = await AsyncStorage.getItem("sessionId");
 
-    setAuthorized(null);
-    return false;
+      if (user) {
+        const response = await axios.post(
+          `https://groupplan.azurewebsites.net/users/user/authorized`,
+          {
+            withCredentials: true,
+            headers: { Cookie: user.split(";")[0].replace(/"/g, "") },
+          }
+        );
+        if (response.data) {
+          setAuthorized(true);
+        }
+      } else {
+        setAuthorized(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
+    setAuthorized(false);
     isAuthorized();
-  });
+  }, [props]);
+
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_600SemiBold,

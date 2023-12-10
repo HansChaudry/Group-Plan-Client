@@ -62,7 +62,7 @@ const OnBoard = (props) => {
       <Stack.Navigator>
         <Stack.Screen
           name="LandingPage"
-          component={authorized ? AppTabs : LandingPage}
+          component={LandingPage}
           options={{ headerShown: false }}
         />
         <Stack.Screen

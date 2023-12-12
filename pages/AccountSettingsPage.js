@@ -64,7 +64,7 @@ export default function AccountSettingsPage() {
             style={{
               width: 200,
               padding: 15,
-              backgroundColor: "red",
+              backgroundColor: "#9e4f4c",
               borderRadius: 5,
               alignItems: "center",
               marginTop: 20,

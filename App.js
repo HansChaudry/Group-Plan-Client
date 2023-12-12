@@ -19,35 +19,35 @@ import {
 } from "@expo-google-fonts/poppins";
 
 const OnBoard = (props) => {
-  const [authorized, setAuthorized] = useState(false);
+  // const [authorized, setAuthorized] = useState(false);
 
-  const isAuthorized = async () => {
-    try {
-      const user = await AsyncStorage.getItem("sessionId");
+  // const isAuthorized = async () => {
+  //   try {
+  //     const user = await AsyncStorage.getItem("sessionId");
 
-      if (user) {
-        const response = await axios.post(
-          `https://groupplan.azurewebsites.net/users/user/authorized`,
-          {
-            withCredentials: true,
-            headers: { Cookie: user.split(";")[0].replace(/"/g, "") },
-          }
-        );
-        if (response.data) {
-          setAuthorized(true);
-        }
-      } else {
-        setAuthorized(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     if (user) {
+  //       const response = await axios.post(
+  //         `https://groupplan.azurewebsites.net/users/user/authorized`,
+  //         {
+  //           withCredentials: true,
+  //           headers: { Cookie: user.split(";")[0].replace(/"/g, "") },
+  //         }
+  //       );
+  //       if (response.data) {
+  //         setAuthorized(true);
+  //       }
+  //     } else {
+  //       setAuthorized(false);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    setAuthorized(false);
-    isAuthorized();
-  }, [props]);
+  // useEffect(() => {
+  //   setAuthorized(false);
+  //   isAuthorized();
+  // }, [props]);
 
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,

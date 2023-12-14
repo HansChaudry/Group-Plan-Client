@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import { Text, View, Modal, TouchableOpacity } from "react-native";
 import { RecipeDetailsModalStyles } from "../../styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import React from "react";
 
 export default function RecipeDetailsModal(props) {
@@ -19,6 +21,14 @@ export default function RecipeDetailsModal(props) {
     .replace("[", "")
     .replace("]", "")
     .split(",");
+
+  const saveToLocalMeals = async (meals) => {
+    try {
+      await AsyncStorage.setItem("localMeals", JSON.stringify(meals));
+    } catch (error) {
+      console.error("Error saving local meals", error);
+    }
+  };
 
   return (
     <Modal
@@ -82,13 +92,31 @@ export default function RecipeDetailsModal(props) {
 
             {/* EXPORT BUTTON */}
             <TouchableOpacity
-              onPress={() => {
-                // EXPORT BUTTON LOGIC TO BE ADDED
-                console.log("Export button pressed");
+              onPress={async () => {
+                var localMeals = await AsyncStorage.getItem("localMeals");
+
+                if (localMeals) {
+                  localMeals = JSON.parse(localMeals);
+                } else {
+                  localMeals = [];
+                }
+                saveToLocalMeals([
+                  ...localMeals,
+                  {
+                    mealName: props.meal.fields.name,
+                    ingredients: ingredientsArray.map((ingredient) => ({
+                      name: ingredient,
+                      checked: false,
+                    })),
+                  },
+                ]);
+                props.close(false);
               }}
               style={RecipeDetailsModalStyles.exportButton}
             >
-              <Text style={RecipeDetailsModalStyles.buttonText}>Export</Text>
+              <Text style={RecipeDetailsModalStyles.buttonText}>
+                Add to Cart
+              </Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

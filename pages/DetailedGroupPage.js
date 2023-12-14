@@ -212,6 +212,9 @@ export default function DetailedGroupPage({ route }) {
                 width: width * 0.9,
               }}
               key={currentRecipe?.pk}
+              onPress={() => {
+                setMealModalVisible(true);
+              }}
             >
               <Image
                 source={{
@@ -301,7 +304,7 @@ export default function DetailedGroupPage({ route }) {
         <RecipeDetailsModal
           show={mealModalVisible}
           close={setMealModalVisible}
-          meal={currentRecipe}
+          meal={{ fields: currentRecipe }}
         />
         <GroupMembersModal
           show={memberModalsVisible}
